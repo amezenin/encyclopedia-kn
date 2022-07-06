@@ -37,4 +37,4 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
 server:
-  port: 8081
+  port: 8080

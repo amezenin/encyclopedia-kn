@@ -52,15 +52,27 @@ public class ModelTest {
         user.setLastName("Mezhenin");
         user.setEmail("anton.mezhenin@gmail.com");
 
+        //articles
         Article article = new Article();
         article.setTitle("First article");
         article.setContent("Body");
         article.setUser(user);
 
+        Article article2 = new Article();
+        article2.setTitle("Second article");
+        article2.setContent("Body");
+        article2.setUser(user);
+
+        //comments
         Comment comment = new Comment();
         comment.setContent("Good article!");
         comment.setUser(user);
         comment.setArticle(article);
+
+        Comment comment2 = new Comment();
+        comment2.setContent("Good article!");
+        comment2.setUser(user);
+        comment2.setArticle(article);
 
         VoteArticle voteArticle = new VoteArticle();
         voteArticle.setStatus(1);
@@ -69,16 +81,21 @@ public class ModelTest {
         voteComment.setStatus(-1);
 
         user.addArticle(article);
+        user.addArticle(article2);
         user.addComment(comment);
+        user.addComment(comment2);
         user.addVoteArticle(voteArticle);
         article.addVoteArticle(voteArticle);
         article.addComment(comment);
+        article2.addComment(comment2);
         user.addVoteComment(voteComment);
         comment.addVoteComment(voteComment);
 
         userRepository.save(user);
         articleRepository.save(article);
+        articleRepository.save(article2);
         commentRepository.save(comment);
+        commentRepository.save(comment2);
         voteArticleRepository.save(voteArticle);
         voteCommentRepository.save(voteComment);
 

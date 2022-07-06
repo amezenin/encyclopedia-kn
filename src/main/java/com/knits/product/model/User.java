@@ -41,16 +41,16 @@ public class User implements Serializable {
     private Boolean active = true;
 
     @OneToMany(mappedBy = "user")
-    private List<Article> articleList= new ArrayList<>();
+    private List<Article> articleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Comment> commentList= new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<VoteArticle> voteArticleList= new ArrayList<>();
+    private List<VoteArticle> voteArticleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<VoteComment> voteCommentList= new ArrayList<>();
+    private List<VoteComment> voteCommentList = new ArrayList<>();
 
     public void addArticle(Article article) {
         articleList.add(article);
