@@ -12,6 +12,11 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/encyclopedia
+    username: root
+    password:
   application:
     name: Product
   profiles:
