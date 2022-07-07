@@ -12,9 +12,14 @@ import com.knits.product.service.mapper.ArticleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.control.MappingControl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,6 +124,14 @@ public class ArticleService {
         }
 
         articleRepository.deleteById(articleId);
+    }
+
+    //didnt use before. want to try
+    public List<ArticleDTO> findAllPaged(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<Article> pagedResult = articleRepository.findAll(paging);
+
+        return pagedResult.stream().map(articleMapper::toDto).collect(Collectors.toList());
     }
 
 

@@ -92,4 +92,17 @@ public class ArticleController {
     }
 
 
+    //didnt use before. Want to try pageable
+    @GetMapping(value = "/articles/{pageNo}/{pageSize}", produces = {"application/json"})
+    public ResponseEntity<List<ArticleDTO>> getAllPaged(@PathVariable int pageNo,
+                                                           @PathVariable int pageSize,
+                                                           @RequestParam(defaultValue = "id") String sortBy) {
+        log.debug("REST request to get all Articles");
+
+        return ResponseEntity
+                .ok()
+                .body(articleService.findAllPaged(pageNo, pageSize, sortBy));
+    }
+
+
 }
