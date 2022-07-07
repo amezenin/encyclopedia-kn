@@ -5,6 +5,7 @@ import com.knits.product.service.ArticleService;
 import com.knits.product.service.CommentService;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.CommentDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class CommentController {
 
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping(value = "/comments/all", produces = {"application/json"})
     public ResponseEntity<List<CommentDTO>> getAllComments() {

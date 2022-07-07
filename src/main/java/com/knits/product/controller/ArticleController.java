@@ -5,6 +5,7 @@ import com.knits.product.service.ArticleService;
 import com.knits.product.service.UserService;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +18,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping(value = "/articles/all", produces = {"application/json"})
     public ResponseEntity<List<ArticleDTO>> getAllArticles() {

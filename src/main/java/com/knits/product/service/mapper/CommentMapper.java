@@ -4,26 +4,26 @@ import com.knits.product.model.Article;
 import com.knits.product.model.Comment;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.CommentDTO;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class CommentMapper {
+
+    private final ModelMapper modelMapper;
 
     public Comment toEntity(CommentDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        Comment entity = new Comment();
-        entity.setId(dto.getId());
-        entity.setContent(dto.getContent());
-        entity.setCreatedDate(dto.getCreatedDate());
-        //entity.setArticle(dto.getArticle());
-        //entity.setUser(dto.getUser());
-        return entity;
+        return modelMapper.map(dto, Comment.class);
     }
 
     public CommentDTO toDto(Comment entity) {
@@ -31,14 +31,8 @@ public class CommentMapper {
         if (entity == null) {
             return null;
         }
-        CommentDTO dto = new CommentDTO();
-        dto.setId(entity.getId());
-        dto.setContent(entity.getContent());
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setArticleId(entity.getArticle().getId());
-        dto.setUserId(entity.getUser().getId());
-        //dto.setUser(entity.getUser());
-        return dto;
+
+        return modelMapper.map(entity, CommentDTO.class);
     }
 
     public void partialUpdate(Comment entity, CommentDTO dto) {
@@ -68,11 +62,7 @@ public class CommentMapper {
             return null;
         }
 
-        List<CommentDTO> list = new ArrayList<>(entityList.size());
-        for (Comment entity : entityList) {
-            list.add(toDto(entity));
-        }
-        return list;
+        return entityList.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     public List<Comment> toEntity(List<CommentDTO> dtoList) {
@@ -80,10 +70,6 @@ public class CommentMapper {
             return null;
         }
 
-        List<Comment> list = new ArrayList<>(dtoList.size());
-        for (CommentDTO commentDTO : dtoList) {
-            list.add(toEntity(commentDTO));
-        }
-        return list;
+        return dtoList.stream().map(this::toEntity).collect(Collectors.toList());
     }
 }

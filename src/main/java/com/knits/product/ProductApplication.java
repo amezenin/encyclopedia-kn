@@ -4,9 +4,11 @@ import com.knits.product.config.ApplicationProperties;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -22,6 +24,11 @@ public class ProductApplication {
         SpringApplication app = new SpringApplication(ProductApplication.class);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     private static void logApplicationStartup(Environment env) {

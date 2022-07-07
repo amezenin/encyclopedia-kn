@@ -4,6 +4,7 @@ package com.knits.product.controller;
 import com.knits.product.exceptions.UserException;
 import com.knits.product.service.UserService;
 import com.knits.product.service.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping(value = "/users/{id}", produces = {"application/json"})
     public ResponseEntity<UserDTO> getUserById( @PathVariable(value = "id", required = true) final Long id) {

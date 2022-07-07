@@ -12,6 +12,8 @@ import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.CommentDTO;
 import com.knits.product.service.mapper.ArticleMapper;
 import com.knits.product.service.mapper.CommentMapper;
+import com.knits.product.service.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,19 +25,21 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class CommentService {
 
-    @Autowired
-    private CommentMapper commentMapper;
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private CommentRepository commentRepository;
+    private final ArticleMapper articleMapper;
+
+    private final ArticleService articleService;
+
+    private final UserService userService;
+
+    private final CommentRepository commentRepository;
 
     public List<CommentDTO> findAll() {
         return commentRepository.findAll().stream().map(commentMapper::toDto).collect(Collectors.toList());
@@ -43,13 +47,11 @@ public class CommentService {
 
     public CommentDTO save(long userId, long articleId, CommentDTO commentDTO) {
         log.debug("Request to save Comment : {}", commentDTO);
-        Comment comment = commentMapper.toEntity(commentDTO);
+        Comment comment = getCommentEntity(commentDTO);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUserEntity(userId);
 
-        Article article = articleRepository.findById(articleId).orElseThrow(()
-                -> new UserException("Article#" + articleId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Article article = articleMapper.toEntity(articleService.findById(articleId));
 
         //set user
         comment.setUser(user);
@@ -71,11 +73,9 @@ public class CommentService {
     public CommentDTO update(Long userId, Long commentId, CommentDTO commentDTO) {
         log.debug("Request to update Comment : {}", commentDTO);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUserEntity(userId);
 
-        Comment comment = commentRepository.findById(commentId).orElseThrow(()
-                -> new UserException("Comment#" + commentId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Comment comment = getComment(commentId);
 
         if (!comment.getUser().getId().equals(user.getId())) {
             throw new UserException("User's not found comment", ExceptionCodes.USER_NOT_FOUND);
@@ -91,16 +91,28 @@ public class CommentService {
     public void delete(Long userId, Long commentId) {
         log.debug("Delete Comment by id : {}", commentId);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUserEntity(userId);
 
-        Comment comment = commentRepository.findById(commentId).orElseThrow(()
-                -> new UserException("Comment#" + commentId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Comment comment = getComment(commentId);
 
         if (!comment.getUser().getId().equals(user.getId())) {
             throw new UserException("Comment was not created by User", ExceptionCodes.USER_NOT_FOUND);
         }
 
         commentRepository.deleteById(commentId);
+    }
+
+    //helper methods
+    private User getUserEntity(long userId) {
+        return userMapper.toEntity(userService.findById(userId));
+    }
+
+    private Comment getCommentEntity(CommentDTO commentDTO) {
+        return commentMapper.toEntity(commentDTO);
+    }
+
+    private Comment getComment(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(()
+                -> new UserException("Comment#" + commentId + " not found", ExceptionCodes.USER_NOT_FOUND));
     }
 }

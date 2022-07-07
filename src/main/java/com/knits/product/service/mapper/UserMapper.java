@@ -2,12 +2,15 @@ package com.knits.product.service.mapper;
 
 import com.knits.product.model.User;
 import com.knits.product.service.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class UserMapper {
 
 
@@ -83,11 +86,7 @@ public class UserMapper {
             return null;
         }
 
-        List<UserDTO> list = new ArrayList<>(entityList.size());
-        for (User entity : entityList) {
-            list.add(toDto(entity));
-        }
-        return list;
+        return entityList.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     public List<User> toEntity(List<UserDTO> dtoList) {
@@ -95,11 +94,7 @@ public class UserMapper {
             return null;
         }
 
-        List<User> list = new ArrayList<>(dtoList.size());
-        for (UserDTO userDTO : dtoList) {
-            list.add(toEntity(userDTO));
-        }
-        return list;
+        return dtoList.stream().map(this::toEntity).collect(Collectors.toList());
     }
 
 }

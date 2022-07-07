@@ -9,6 +9,8 @@ import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.ArticleMapper;
+import com.knits.product.service.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.control.MappingControl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +29,22 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class ArticleService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
+    private final ArticleMapper articleMapper;
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final ArticleRepository articleRepository;
+
+    private final UserService userService;
 
     public ArticleDTO save(long userId, ArticleDTO articleDTO) {
         log.debug("Request to save Article : {}", articleDTO);
         Article article = articleMapper.toEntity(articleDTO);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUser(userId);
 
         //set user
         article.setUser(user);
@@ -53,6 +54,7 @@ public class ArticleService {
         return articleMapper.toDto(newArticle);
     }
 
+
     public List<ArticleDTO> findAll() {
         return articleRepository.findAll().stream().map(articleMapper::toDto).collect(Collectors.toList());
     }
@@ -60,19 +62,18 @@ public class ArticleService {
     public ArticleDTO findById(Long id) {
 
         log.debug("Request Article by id : {}", id);
-        Article article = articleRepository.findById(id).orElseThrow(()
-                -> new UserException("Article#" + id + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Article article = getArticle(id);
         return articleMapper.toDto(article);
     }
+
+
 
     public ArticleDTO findByIdAndUserId(Long userId, Long articleId) {
 
         log.debug("Request Article by id : {}", articleId);
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUser(userId);
 
-        Article article = articleRepository.findById(articleId).orElseThrow(()
-                -> new UserException("Article#" + articleId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Article article = getArticle(articleId);
 
         if (!article.getUser().getId().equals(user.getId())) {
             throw new UserException("Users not found comment", ExceptionCodes.USER_NOT_FOUND);
@@ -93,11 +94,9 @@ public class ArticleService {
     public ArticleDTO update(Long userId, Long articleId, ArticleDTO articleDTO) {
         log.debug("Request to update Article : {}", articleDTO);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUser(userId);
 
-        Article article = articleRepository.findById(articleId).orElseThrow(()
-                -> new UserException("Article#" + articleId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Article article = getArticle(articleId);
 
         if (!article.getUser().getId().equals(user.getId())) {
             throw new UserException("Users not found articles", ExceptionCodes.USER_NOT_FOUND);
@@ -113,11 +112,9 @@ public class ArticleService {
     public void delete(Long userId, Long articleId) {
         log.debug("Delete Article by id : {}", articleId);
 
-        User user = userRepository.findById(userId).orElseThrow(()
-                -> new UserException("User#" + userId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        User user = getUser(userId);
 
-        Article article = articleRepository.findById(articleId).orElseThrow(()
-                -> new UserException("Article#" + articleId + " not found", ExceptionCodes.USER_NOT_FOUND));
+        Article article = getArticle(articleId);
 
         if (!article.getUser().getId().equals(user.getId())) {
             throw new UserException("Article was not created by User", ExceptionCodes.USER_NOT_FOUND);
@@ -132,6 +129,16 @@ public class ArticleService {
         Page<Article> pagedResult = articleRepository.findAll(paging);
 
         return pagedResult.stream().map(articleMapper::toDto).collect(Collectors.toList());
+    }
+
+    //helper methods
+    private Article getArticle(Long id) {
+        return articleRepository.findById(id).orElseThrow(()
+                -> new UserException("Article#" + id + " not found", ExceptionCodes.USER_NOT_FOUND));
+    }
+
+    private User getUser(long userId) {
+        return userMapper.toEntity(userService.findById(userId));
     }
 
 

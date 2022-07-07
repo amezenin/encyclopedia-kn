@@ -4,32 +4,29 @@ import com.knits.product.model.Article;
 import com.knits.product.model.User;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ArticleMapper {
 
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private CommentMapper commentMapper;
+    private final ModelMapper modelMapper;
 
     public Article toEntity(ArticleDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        Article entity = new Article();
-        entity.setId(dto.getId());
-        entity.setTitle(dto.getTitle());
-        entity.setContent(dto.getContent());
-        entity.setCreatedDate(dto.getCreatedDate());
-        //entity.setUser(dto.getUser());
-        //entity.setCommentList(dto.getCommentList());
-        return entity;
+        return modelMapper.map(dto, Article.class);
     }
 
     public ArticleDTO toDto(Article entity) {
@@ -37,15 +34,8 @@ public class ArticleMapper {
         if (entity == null) {
             return null;
         }
-        ArticleDTO dto = new ArticleDTO();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setContent(entity.getContent());
-        dto.setCreatedDate(entity.getCreatedDate());
-        //dto.setUser(entity.getUser());
-        dto.setUserId(entity.getUser().getId());
-        dto.setCommentList(commentMapper.toDto(entity.getCommentList()));
-        return dto;
+
+        return modelMapper.map(entity, ArticleDTO.class);
     }
 
     public void partialUpdate(Article entity, ArticleDTO dto) {
@@ -86,11 +76,7 @@ public class ArticleMapper {
             return null;
         }
 
-        List<ArticleDTO> list = new ArrayList<>(entityList.size());
-        for (Article entity : entityList) {
-            list.add(toDto(entity));
-        }
-        return list;
+        return entityList.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     public List<Article> toEntity(List<ArticleDTO> dtoList) {
@@ -98,10 +84,6 @@ public class ArticleMapper {
             return null;
         }
 
-        List<Article> list = new ArrayList<>(dtoList.size());
-        for (ArticleDTO articleDTO : dtoList) {
-            list.add(toEntity(articleDTO));
-        }
-        return list;
+        return dtoList.stream().map(this::toEntity).collect(Collectors.toList());
     }
 }

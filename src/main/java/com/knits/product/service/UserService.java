@@ -6,6 +6,7 @@ import com.knits.product.model.User;
 import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
