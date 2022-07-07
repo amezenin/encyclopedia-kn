@@ -1,8 +1,11 @@
 package com.knits.product.service.mapper;
 
+import com.knits.product.model.Comment;
 import com.knits.product.model.User;
+import com.knits.product.service.dto.CommentDTO;
 import com.knits.product.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,21 +16,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserMapper {
 
+    private final ModelMapper modelMapper;
 
     public User toEntity(UserDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        User entity = new User();
-        entity.setId(dto.getId());
-        entity.setLogin(dto.getLogin());
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
-        entity.setActive(dto.getActive());
-        return entity;
+        return modelMapper.map(dto, User.class);
     }
 
     public UserDTO toDto(User entity) {
@@ -35,14 +31,8 @@ public class UserMapper {
         if (entity == null) {
             return null;
         }
-        UserDTO dto = new UserDTO();
-        dto.setId(entity.getId());
-        dto.setLogin(entity.getLogin());
-        dto.setFirstName(entity.getFirstName());
-        dto.setLastName(entity.getLastName());
-        dto.setEmail(entity.getEmail());
-        dto.setActive(entity.getActive());
-        return dto;
+
+        return modelMapper.map(entity, UserDTO.class);
     }
 
     public void partialUpdate(User entity, UserDTO dto) {
