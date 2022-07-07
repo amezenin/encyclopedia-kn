@@ -4,6 +4,7 @@ import com.knits.product.model.Article;
 import com.knits.product.model.User;
 import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ import java.util.List;
 
 @Component
 public class ArticleMapper {
+
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     public Article toEntity(ArticleDTO dto) {
         if (dto == null) {
@@ -23,6 +28,7 @@ public class ArticleMapper {
         entity.setContent(dto.getContent());
         entity.setCreatedDate(dto.getCreatedDate());
         //entity.setUser(dto.getUser());
+        //entity.setCommentList(dto.getCommentList());
         return entity;
     }
 
@@ -37,6 +43,8 @@ public class ArticleMapper {
         dto.setContent(entity.getContent());
         dto.setCreatedDate(entity.getCreatedDate());
         //dto.setUser(entity.getUser());
+        dto.setUserId(entity.getUser().getId());
+        dto.setCommentList(commentMapper.toDto(entity.getCommentList()));
         return dto;
     }
 

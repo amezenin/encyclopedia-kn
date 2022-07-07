@@ -70,9 +70,14 @@ public class ModelTest {
         comment.setArticle(article);
 
         Comment comment2 = new Comment();
-        comment2.setContent("Good article!");
+        comment2.setContent("Good article2!");
         comment2.setUser(user);
         comment2.setArticle(article);
+
+        Comment comment3 = new Comment();
+        comment3.setContent("Good article3!");
+        comment3.setUser(user);
+        comment3.setArticle(article2);
 
         VoteArticle voteArticle = new VoteArticle();
         voteArticle.setStatus(1);
@@ -84,10 +89,12 @@ public class ModelTest {
         user.addArticle(article2);
         user.addComment(comment);
         user.addComment(comment2);
+        user.addComment(comment3);
         user.addVoteArticle(voteArticle);
         article.addVoteArticle(voteArticle);
         article.addComment(comment);
-        article2.addComment(comment2);
+        article.addComment(comment2);
+        article2.addComment(comment3);
         user.addVoteComment(voteComment);
         comment.addVoteComment(voteComment);
 
@@ -96,6 +103,7 @@ public class ModelTest {
         articleRepository.save(article2);
         commentRepository.save(comment);
         commentRepository.save(comment2);
+        commentRepository.save(comment3);
         voteArticleRepository.save(voteArticle);
         voteCommentRepository.save(voteComment);
 
@@ -104,8 +112,6 @@ public class ModelTest {
         log.info("Article description: {} ",savedArticle.getTitle());
         savedArticle.getCommentList().forEach(bl
                 -> log.info("Comments Found: {} ",bl.getContent()));
-        savedArticle.getCommentList().forEach(bl
-                -> log.info("Comment like: {} ",bl.getVoteCommentList().get(0).getStatus()));
 
     }
 

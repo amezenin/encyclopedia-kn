@@ -100,7 +100,7 @@ public class ArticleService {
                 -> new UserException("Article#" + articleId + " not found", ExceptionCodes.USER_NOT_FOUND));
 
         if (!article.getUser().getId().equals(user.getId())) {
-            throw new UserException("Users not found comment", ExceptionCodes.USER_NOT_FOUND);
+            throw new UserException("Users not found articles", ExceptionCodes.USER_NOT_FOUND);
         }
 
         articleMapper.partialUpdate(article, articleDTO);

@@ -1,8 +1,8 @@
 package com.knits.product.service.dto;
 
-import com.knits.product.model.Comment;
+import com.knits.product.model.Article;
 import com.knits.product.model.User;
-import com.knits.product.model.VoteArticle;
+import com.knits.product.model.VoteComment;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -13,15 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ArticleDTO {
+public class CommentDTO {
 
     private Long id;
-    private String title;
     private String content;
     private Date createdDate = new Date();
-    //here User object or Long userId? or nothing if use user id in link
     //private User user;
+    private Long articleId;
     private Long userId;
-    private List<CommentDTO> commentList = new ArrayList<>();
-    //private List<VoteArticle> voteArticleList = new ArrayList<>();
+    //private Article article;
+    //List<VoteComment> voteCommentList = new ArrayList<>();
 }
