@@ -1,9 +1,8 @@
-package com.knits.product.model;
+package com.knits.product.entity;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.knits.product.service;
 
 import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
-import com.knits.product.model.User;
+import com.knits.product.entity.User;
 import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.UserMapper;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service for managing {@link com.knits.product.model.User}.
+ * Service for managing {@link com.knits.product.entity.User}.
  */
 @Service
 @Transactional

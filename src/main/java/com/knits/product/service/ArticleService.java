@@ -2,23 +2,18 @@ package com.knits.product.service;
 
 import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
-import com.knits.product.model.Article;
-import com.knits.product.model.User;
+import com.knits.product.entity.Article;
+import com.knits.product.entity.User;
 import com.knits.product.repository.ArticleRepository;
-import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.ArticleDTO;
-import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.ArticleMapper;
 import com.knits.product.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.control.MappingControl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

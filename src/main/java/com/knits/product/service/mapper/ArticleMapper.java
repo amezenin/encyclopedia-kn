@@ -1,23 +1,17 @@
 package com.knits.product.service.mapper;
 
-import com.knits.product.model.Article;
-import com.knits.product.model.User;
+import com.knits.product.entity.Article;
 import com.knits.product.service.dto.ArticleDTO;
-import com.knits.product.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class ArticleMapper {
-
-    private final CommentMapper commentMapper;
 
     private final ModelMapper modelMapper;
 

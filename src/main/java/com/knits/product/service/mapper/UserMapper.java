@@ -1,20 +1,19 @@
 package com.knits.product.service.mapper;
 
-import com.knits.product.model.Comment;
-import com.knits.product.model.User;
-import com.knits.product.service.dto.CommentDTO;
+import com.knits.product.entity.User;
 import com.knits.product.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
+
+    private final RoleMapper roleMapper;
 
     private final ModelMapper modelMapper;
 

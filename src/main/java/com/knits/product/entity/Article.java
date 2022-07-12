@@ -1,4 +1,4 @@
-package com.knits.product.model;
+package com.knits.product.entity;
 
 import lombok.Data;
 

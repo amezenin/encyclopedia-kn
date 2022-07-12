@@ -1,7 +1,7 @@
 package com.knits.product.service.mapper;
 
-import com.knits.product.entity.Comment;
-import com.knits.product.service.dto.CommentDTO;
+import com.knits.product.entity.Role;
+import com.knits.product.service.dto.RoleDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -11,50 +11,49 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class CommentMapper {
+public class RoleMapper {
 
     private final ModelMapper modelMapper;
 
-    public Comment toEntity(CommentDTO dto) {
+    public Role toEntity(RoleDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        return modelMapper.map(dto, Comment.class);
+        return modelMapper.map(dto, Role.class);
     }
 
-    public CommentDTO toDto(Comment entity) {
+    public RoleDTO toDto(Role entity) {
 
         if (entity == null) {
             return null;
         }
 
-        return modelMapper.map(entity, CommentDTO.class);
+        return modelMapper.map(entity, RoleDTO.class);
     }
 
-    public void partialUpdate(Comment entity, CommentDTO dto) {
+    public void partialUpdate(Role entity, RoleDTO dto) {
         if (dto == null) {
             return;
         }
         if (dto.getId() != null) {
             entity.setId(dto.getId());
         }
-        if (dto.getContent() != null) {
-            entity.setContent(dto.getContent());
+
+        if (dto.getRole() != null) {
+            entity.setRole(dto.getRole());
         }
     }
 
-    public void update(Comment entity, CommentDTO dto) {
+    public void update(Role entity, RoleDTO dto) {
         if (dto == null) {
             return;
         }
         entity.setId(dto.getId());
-        entity.setContent(dto.getContent());
-        //date
-        //user
+        entity.setRole(dto.getRole());
     }
 
-    public List<CommentDTO> toDto(List<Comment> entityList) {
+    public List<RoleDTO> toDto(List<Role> entityList) {
         if (entityList == null) {
             return null;
         }
@@ -62,7 +61,7 @@ public class CommentMapper {
         return entityList.stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public List<Comment> toEntity(List<CommentDTO> dtoList) {
+    public List<Role> toEntity(List<RoleDTO> dtoList) {
         if (dtoList == null) {
             return null;
         }

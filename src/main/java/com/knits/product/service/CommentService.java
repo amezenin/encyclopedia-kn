@@ -2,20 +2,16 @@ package com.knits.product.service;
 
 import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
-import com.knits.product.model.Article;
-import com.knits.product.model.Comment;
-import com.knits.product.model.User;
-import com.knits.product.repository.ArticleRepository;
+import com.knits.product.entity.Article;
+import com.knits.product.entity.Comment;
+import com.knits.product.entity.User;
 import com.knits.product.repository.CommentRepository;
-import com.knits.product.repository.UserRepository;
-import com.knits.product.service.dto.ArticleDTO;
 import com.knits.product.service.dto.CommentDTO;
 import com.knits.product.service.mapper.ArticleMapper;
 import com.knits.product.service.mapper.CommentMapper;
 import com.knits.product.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

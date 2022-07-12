@@ -1,7 +1,7 @@
 package com.knits.product.repository;
 
 
-import com.knits.product.model.User;
+import com.knits.product.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

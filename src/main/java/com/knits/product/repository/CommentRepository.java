@@ -1,7 +1,6 @@
 package com.knits.product.repository;
 
-import com.knits.product.model.Article;
-import com.knits.product.model.Comment;
+import com.knits.product.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

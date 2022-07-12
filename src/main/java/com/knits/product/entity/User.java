@@ -1,4 +1,4 @@
-package com.knits.product.model;
+package com.knits.product.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A user.
@@ -61,25 +60,34 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     private List<Article> likedArticles = new ArrayList<>();
 
-    public void addArticle(Article article) {
-        articleList.add(article);
-        article.setUser(this);
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roleList = new ArrayList<>();
 
-    public void addlikedArticles(Article article) {
+    public void addlikedArticle(Article article) {
         likedArticles.add(article);
     }
 
-    public void removelikedArticles(Article article) {
+    public void removelikedArticle(Article article) {
         likedArticles.remove(article);
     }
 
-    public void addlikedComments(Comment comment) {
+    public void addlikedComment(Comment comment) {
         likedComments.add(comment);
     }
 
-    public void removelikedComments(Comment comment) {
-        likedComments.remove(comment);
+    public void removelikedComment(Comment comment) { likedComments.remove(comment); }
+
+    public void addRole(Role role) { roleList.add(role); }
+
+    public void removeRole(Role role) { roleList.remove(role); }
+
+    public void addArticle(Article article) {
+        articleList.add(article);
+        article.setUser(this);
     }
 
     public void removeArticle(Article article) {
