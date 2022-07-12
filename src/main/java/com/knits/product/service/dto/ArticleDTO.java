@@ -1,13 +1,7 @@
 package com.knits.product.service.dto;
 
-import com.knits.product.model.Comment;
-import com.knits.product.model.User;
-import com.knits.product.model.VoteArticle;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,5 +17,5 @@ public class ArticleDTO {
     //private User user;
     private Long userId;
     private List<CommentDTO> commentList = new ArrayList<>();
-    //private List<VoteArticle> voteArticleList = new ArrayList<>();
+    private List<UserDTO> likes = new ArrayList<>();
 }

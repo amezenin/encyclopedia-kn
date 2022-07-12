@@ -31,16 +31,15 @@ public class Comment {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VoteComment> voteCommentList = new ArrayList<>();
+    @ManyToMany(mappedBy = "likedComments")
+    List<User> likes;
 
-    public void addVoteComment(VoteComment voteComment) {
-        voteCommentList.add(voteComment);
-        voteComment.setComment(this);
+    public void addLikes(User user) {
+        likes.add(user);
     }
 
-    public void removeVoteComment(VoteComment voteComment) {
-        voteCommentList.remove(voteComment);
-        voteComment.setComment(null);
+    public void removeLikes(User user) {
+        likes.remove(user);
     }
+
 }

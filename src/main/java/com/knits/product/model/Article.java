@@ -33,8 +33,16 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VoteArticle> voteArticleList = new ArrayList<>();
+    @ManyToMany(mappedBy = "likedArticles")
+    List<User> likes;
+
+    public void addLikes(User user) {
+        likes.add(user);
+    }
+
+    public void removeLikes(User user) {
+        likes.remove(user);
+    }
 
     public void addComment(Comment comment) {
         commentList.add(comment);
@@ -46,14 +54,6 @@ public class Article {
         comment.setArticle(null);
     }
 
-    public void addVoteArticle(VoteArticle voteArticle) {
-        voteArticleList.add(voteArticle);
-        voteArticle.setArticle(this);
-    }
 
-    public void removeVoteArticle(VoteArticle voteArticle) {
-        voteArticleList.remove(voteArticle);
-        voteArticle.setArticle(null);
-    }
 
 }

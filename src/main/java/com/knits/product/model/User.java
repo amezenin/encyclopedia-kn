@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A user.
@@ -46,15 +47,39 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<VoteArticle> voteArticleList = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "comment_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id"))
+    private List<Comment> likedComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<VoteComment> voteCommentList = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "article_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
+    private List<Article> likedArticles = new ArrayList<>();
 
     public void addArticle(Article article) {
         articleList.add(article);
         article.setUser(this);
+    }
+
+    public void addlikedArticles(Article article) {
+        likedArticles.add(article);
+    }
+
+    public void removelikedArticles(Article article) {
+        likedArticles.remove(article);
+    }
+
+    public void addlikedComments(Comment comment) {
+        likedComments.add(comment);
+    }
+
+    public void removelikedComments(Comment comment) {
+        likedComments.remove(comment);
     }
 
     public void removeArticle(Article article) {
@@ -70,26 +95,6 @@ public class User implements Serializable {
     public void removeComment(Comment comment) {
         commentList.remove(comment);
         comment.setUser(null);
-    }
-
-    public void addVoteArticle(VoteArticle voteArticle) {
-        voteArticleList.add(voteArticle);
-        voteArticle.setUser(this);
-    }
-
-    public void removeVoteArticle(VoteArticle voteArticle) {
-        voteArticleList.remove(voteArticle);
-        voteArticle.setUser(null);
-    }
-
-    public void addVoteComment(VoteComment voteComment) {
-        voteCommentList.add(voteComment);
-        voteComment.setUser(this);
-    }
-
-    public void removeVoteComment(VoteComment voteComment) {
-        voteCommentList.remove(voteComment);
-        voteComment.setUser(null);
     }
 
 }

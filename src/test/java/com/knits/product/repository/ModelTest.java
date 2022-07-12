@@ -35,11 +35,6 @@ public class ModelTest {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Autowired
-    private VoteArticleRepository voteArticleRepository;
-
-    @Autowired
-    private VoteCommentRepository voteCommentRepository;
 
     @Test
     @Rollback(value = false)
@@ -79,24 +74,21 @@ public class ModelTest {
         comment3.setUser(user);
         comment3.setArticle(article2);
 
-        VoteArticle voteArticle = new VoteArticle();
-        voteArticle.setStatus(1);
-
-        VoteComment voteComment = new VoteComment();
-        voteComment.setStatus(-1);
-
         user.addArticle(article);
         user.addArticle(article2);
         user.addComment(comment);
         user.addComment(comment2);
         user.addComment(comment3);
-        user.addVoteArticle(voteArticle);
-        article.addVoteArticle(voteArticle);
+        user.addlikedArticles(article);
+        user.addlikedArticles(article2);
+        user.removelikedArticles(article2);
+        user.addlikedComments(comment);
+        user.addlikedComments(comment2);
         article.addComment(comment);
         article.addComment(comment2);
         article2.addComment(comment3);
-        user.addVoteComment(voteComment);
-        comment.addVoteComment(voteComment);
+        //user.addVoteComment(voteComment);
+        //comment.addVoteComment(voteComment);
 
         userRepository.save(user);
         articleRepository.save(article);
@@ -104,8 +96,8 @@ public class ModelTest {
         commentRepository.save(comment);
         commentRepository.save(comment2);
         commentRepository.save(comment3);
-        voteArticleRepository.save(voteArticle);
-        voteCommentRepository.save(voteComment);
+        //voteArticleRepository.save(voteArticle);
+        //voteCommentRepository.save(voteComment);
 
         Article savedArticle = articleRepository.getById(52L);
 

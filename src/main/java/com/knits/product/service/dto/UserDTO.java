@@ -1,14 +1,6 @@
 package com.knits.product.service.dto;
 
-import com.knits.product.model.Article;
-import com.knits.product.model.Comment;
-import com.knits.product.model.VoteArticle;
-import com.knits.product.model.VoteComment;
 import lombok.Data;
-
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class UserDTO {
