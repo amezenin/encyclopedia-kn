@@ -38,7 +38,7 @@ public class User implements Serializable {
     private String email;
 
     @Column(nullable = false)
-    private Boolean active = true;
+    private Boolean active;
 
     @OneToMany(mappedBy = "user")
     private List<Article> articleList = new ArrayList<>();
@@ -66,6 +66,10 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roleList = new ArrayList<>();
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private RoleInMemory role;
 
     public void addlikedArticle(Article article) {
         likedArticles.add(article);

@@ -42,24 +42,37 @@ public class ModelTest {
     public void saveDataIntoEachTableWithRelationships(){
 
         User user = new User();
-        user.setLogin("anmezhenin");
-        user.setPassword("password");
+        user.setLogin("admin");
+        user.setPassword("$2a$12$mwKpnPivhXCmq4bNVdfYFOO3novitFed9aUpBFDRaeoDcXpQYhw7O");
         user.setFirstName("Anton");
         user.setLastName("Mezhenin");
+        user.setActive(true);
         user.setEmail("anton.mezhenin@gmail.com");
+        user.setRole(RoleInMemory.ADMIN);
 
         User user2 = new User();
         user2.setLogin("user");
-        user2.setPassword("user");
+        user2.setPassword("$2a$12$c29Km1PFfaPc1gwIpGyLqe5fRlKdX8STl2MhecYF9TwsklqAqmBVu");
         user2.setFirstName("Jonny");
         user2.setLastName("Arcan");
+        user2.setActive(true);
         user2.setEmail("user@gmail.com");
+        user2.setRole(RoleInMemory.USER);
+
+        User bannedUser = new User();
+        bannedUser.setLogin("banned");
+        bannedUser.setPassword("$2a$12$c29Km1PFfaPc1gwIpGyLqe5fRlKdX8STl2MhecYF9TwsklqAqmBVu");
+        bannedUser.setFirstName("Jonny");
+        bannedUser.setLastName("Arcan");
+        bannedUser.setActive(false);
+        bannedUser.setEmail("banned@gmail.com");
+        bannedUser.setRole(RoleInMemory.USER);
 
         Role role = new Role();
-        role.setRole("admin");
+        role.setRole("ADMIN");
 
         Role role2 = new Role();
-        role2.setRole("user");
+        role2.setRole("USER");
 
         //articles
         Article article = new Article();
@@ -111,6 +124,7 @@ public class ModelTest {
 
         userRepository.save(user);
         userRepository.save(user2);
+        userRepository.save(bannedUser);
         roleRepository.save(role);
         roleRepository.save(role2);
         articleRepository.save(article);
