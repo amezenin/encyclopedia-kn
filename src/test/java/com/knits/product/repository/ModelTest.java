@@ -48,6 +48,13 @@ public class ModelTest {
         user.setLastName("Mezhenin");
         user.setEmail("anton.mezhenin@gmail.com");
 
+        User user2 = new User();
+        user2.setLogin("user");
+        user2.setPassword("user");
+        user2.setFirstName("Jonny");
+        user2.setLastName("Arcan");
+        user2.setEmail("user@gmail.com");
+
         Role role = new Role();
         role.setRole("admin");
 
@@ -83,7 +90,7 @@ public class ModelTest {
 
 
         user.addRole(role);
-        user.addRole(role2);
+        user2.addRole(role2);
         user.addArticle(article);
         user.addArticle(article2);
         user.addComment(comment);
@@ -103,6 +110,7 @@ public class ModelTest {
 
 
         userRepository.save(user);
+        userRepository.save(user2);
         roleRepository.save(role);
         roleRepository.save(role2);
         articleRepository.save(article);
