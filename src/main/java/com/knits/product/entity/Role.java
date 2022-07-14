@@ -15,17 +15,24 @@ public class Role {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "name")
+    private String name;
 
-    @ManyToMany(mappedBy = "roleList")
-    List<User> roles;
+    @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
+    List<User> users;
 
     public void addRoles(User user) {
-        roles.add(user);
+        users.add(user);
     }
 
     public void removeRoles(User user) {
-        roles.remove(user);
+        users.remove(user);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id: " + id + ", " +
+                "name: " + name + "}";
     }
 }

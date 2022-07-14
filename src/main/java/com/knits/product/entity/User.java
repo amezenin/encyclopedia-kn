@@ -60,7 +60,7 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     private List<Article> likedArticles = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

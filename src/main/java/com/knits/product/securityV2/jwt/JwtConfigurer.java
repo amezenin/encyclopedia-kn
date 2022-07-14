@@ -1,22 +1,22 @@
-package com.knits.product.security;
+package com.knits.product.securityV2.jwt;
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component
 public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    private final JwtTokenFilter jwtTokenFilter;
+    private JwtTokenProvider jwtTokenProvider;
 
-    public JwtConfigurer(JwtTokenFilter jwtTokenFilter) {
-        this.jwtTokenFilter = jwtTokenFilter;
+    public JwtConfigurer(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
-    public void configure(HttpSecurity httpSecurity){
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtTokenProvider);
         httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

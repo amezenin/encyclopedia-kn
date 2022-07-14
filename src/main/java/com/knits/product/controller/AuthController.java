@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class AuthController {
 
+
+
     @GetMapping(value = "/login")
     public String getLoginPage(){
         return "login"; //Circular View Path Error https://www.baeldung.com/spring-circular-view-path-error

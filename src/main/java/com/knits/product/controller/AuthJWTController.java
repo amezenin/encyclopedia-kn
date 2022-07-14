@@ -1,5 +1,5 @@
 package com.knits.product.controller;
-
+/*
 import com.knits.product.entity.User;
 import com.knits.product.repository.UserRepository;
 import com.knits.product.security.JwtTokenProvider;
@@ -59,3 +59,4 @@ public class AuthJWTController {
         return "login"; //Circular View Path Error https://www.baeldung.com/spring-circular-view-path-error
     }
 }
+*/

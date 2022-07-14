@@ -27,11 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleService {
 
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     public RoleDTO save(RoleDTO roleDTO) {
         log.debug("Request to save Role : {}", roleDTO);
@@ -86,4 +84,11 @@ public class RoleService {
         return roleMapper.toDto(roles);
     }
      */
+
+    public RoleDTO findByName(String name){
+        log.debug("Request Role by name : {}", name);
+        Role role = roleRepository.findByName(name).orElseThrow(()
+                -> new UserException("Role#" + name + " not found", ExceptionCodes.USER_NOT_FOUND));
+        return roleMapper.toDto(role);
+    }
 }

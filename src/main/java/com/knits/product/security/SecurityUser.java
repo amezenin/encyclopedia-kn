@@ -1,14 +1,16 @@
 package com.knits.product.security;
 
+import com.knits.product.entity.Role;
 import com.knits.product.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class SecurityUser implements UserDetails {
@@ -68,8 +70,18 @@ public class SecurityUser implements UserDetails {
                 user.getActive().equals(true),
                 user.getActive().equals(true),
                 user.getActive().equals(true),
-                user.getRole().getAuthorities()
+                user.getRole().getAuthorities() //v1
+                //mapToGrantedAuthorities(new ArrayList<>(user.getRoleList())) //try this from securityV2
 
         );
     }
+
+    //try this from securityV2
+    /*
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Role> userRoles) {
+        return userRoles.stream()
+                .map(role ->
+                        new SimpleGrantedAuthority(role.getName())
+                ).collect(Collectors.toList());
+    }*/
 }

@@ -56,6 +56,9 @@ public class UserMapper {
         if (dto.getActive() != null) {
             entity.setActive(dto.getActive());
         }
+        if (dto.getRoleList() != null) {
+            entity.setRoleList(roleMapper.toEntity(dto.getRoleList()));
+        }
     }
 
     public void update(User entity, UserDTO dto) {
@@ -68,6 +71,7 @@ public class UserMapper {
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
         entity.setActive(dto.getActive());
+        entity.setRoleList(roleMapper.toEntity(dto.getRoleList()));
     }
 
     public List<UserDTO> toDto(List<User> entityList) {

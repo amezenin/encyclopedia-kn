@@ -69,10 +69,10 @@ public class ModelTest {
         bannedUser.setRole(RoleInMemory.USER);
 
         Role role = new Role();
-        role.setRole("ADMIN");
+        role.setName("ADMIN");
 
         Role role2 = new Role();
-        role2.setRole("USER");
+        role2.setName("USER");
 
         //articles
         Article article = new Article();

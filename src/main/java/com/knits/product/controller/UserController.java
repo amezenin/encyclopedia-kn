@@ -23,7 +23,6 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/users/{id}", produces = {"application/json"})
-    @PreAuthorize("hasAuthority('users:write')")
     public ResponseEntity<UserDTO> getUserById( @PathVariable(value = "id", required = true) final Long id) {
 
         log.debug("REST request to get User : {}", id);
@@ -35,7 +34,7 @@ public class UserController {
 
 
     @GetMapping(value = "/users/all", produces = {"application/json"})
-    @PreAuthorize("hasAuthority('users:write')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.debug("REST request to get all Users");
         return ResponseEntity

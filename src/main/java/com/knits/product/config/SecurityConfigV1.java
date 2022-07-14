@@ -1,8 +1,7 @@
 package com.knits.product.config;
 
-
-
-import com.knits.product.security.JwtConfigurer;
+/*
+//import com.knits.product.security.JwtConfigurer;//V1
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,10 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) //for preAuthorized annotations in controller
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity //V1
+@EnableGlobalMethodSecurity(prePostEnabled = true) //for preAuthorized annotations in controller V1
+public class SecurityConfigV1 extends WebSecurityConfigurerAdapter {
 
+
+
+    //V1
     private final JwtConfigurer jwtConfigurer;
 
     public SecurityConfig(JwtConfigurer jwtConfigurer) {
@@ -43,25 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(jwtConfigurer);
     }
 
-    /*
-    //in memory
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(
-                User.builder()
-                        .username("admin")
-                        .password(passwordEncoder().encode("admin"))
-                        .authorities(RoleInMemory.ADMIN.getAuthorities())
-                        .build(),
-                User.builder()
-                        .username("user")
-                        .password(passwordEncoder().encode("user"))
-                        .authorities(RoleInMemory.USER.getAuthorities())
-                        .build()
-        );
-    }*/
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -69,9 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
-
 }
+*/

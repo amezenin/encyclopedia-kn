@@ -40,8 +40,8 @@ public class RoleMapper {
             entity.setId(dto.getId());
         }
 
-        if (dto.getRole() != null) {
-            entity.setRole(dto.getRole());
+        if (dto.getName() != null) {
+            entity.setName(dto.getName());
         }
     }
 
@@ -50,7 +50,7 @@ public class RoleMapper {
             return;
         }
         entity.setId(dto.getId());
-        entity.setRole(dto.getRole());
+        entity.setName(dto.getName());
     }
 
     public List<RoleDTO> toDto(List<Role> entityList) {
