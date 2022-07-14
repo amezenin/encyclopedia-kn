@@ -103,6 +103,7 @@ public class ModelTest {
 
 
         user.addRole(role);
+        user.addRole(role2);
         user2.addRole(role2);
         user.addArticle(article);
         user.addArticle(article2);

@@ -1,6 +1,7 @@
 package com.knits.product.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roleList", fetch = FetchType.LAZY)
+    @ToString.Exclude
     List<User> users;
 
     public void addRoles(User user) {

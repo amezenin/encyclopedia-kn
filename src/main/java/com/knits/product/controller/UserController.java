@@ -34,7 +34,7 @@ public class UserController {
 
 
     @GetMapping(value = "/users/all", produces = {"application/json"})
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.debug("REST request to get all Users");
         return ResponseEntity

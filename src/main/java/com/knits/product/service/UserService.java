@@ -117,6 +117,7 @@ public class UserService {
         log.debug("Request User by login : {}", login);
         User user = userRepository.findOneByLogin(login).orElseThrow(()
                 -> new UserException("User#" + login + " not found", ExceptionCodes.USER_NOT_FOUND));
+        log.info("IN findByLogin(Service) - user: {} found by username: {}", user, login);
         return user;
     }
 

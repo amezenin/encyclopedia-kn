@@ -4,6 +4,7 @@ import com.knits.product.entity.User;
 import com.knits.product.securityV2.jwt.JwtUser;
 import com.knits.product.securityV2.jwt.JwtUserFactory;
 import com.knits.product.service.UserService;
+import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @Autowired
-    public JwtUserDetailsService(UserService userService) {
+    public JwtUserDetailsService(UserService userService, UserMapper userMapper) {
+
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
 
         JwtUser jwtUser = JwtUserFactory.create(user);
-        log.info("IN loadUserByUsername - user with username: {} successfully loaded", login);
+        log.info("IN loadUserByUsername(JWTUserDetailsService) - user with username: {} successfully loaded", login);
         return jwtUser;
     }
 }

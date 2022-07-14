@@ -34,6 +34,7 @@ public class AuthControllerV2 {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final RoleMapper roleMapper;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDTO requestDTO){

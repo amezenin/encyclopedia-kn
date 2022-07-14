@@ -26,7 +26,8 @@ public class JwtUser implements UserDetails {
             String firstName,
             String lastName,
             String email,
-            String password, Collection<? extends GrantedAuthority> authorities,
+            String password,
+            Collection<? extends GrantedAuthority> authorities,
             boolean isActive
     ) {
         this.id = id;

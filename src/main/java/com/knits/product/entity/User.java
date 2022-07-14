@@ -1,6 +1,7 @@
 package com.knits.product.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,12 +42,15 @@ public class User implements Serializable {
     private Boolean active;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<Article> articleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<Comment> commentList = new ArrayList<>();
 
     @ManyToMany
+    @ToString.Exclude
     @JoinTable(
             name = "comment_like",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -54,6 +58,7 @@ public class User implements Serializable {
     private List<Comment> likedComments = new ArrayList<>();
 
     @ManyToMany
+    @ToString.Exclude
     @JoinTable(
             name = "article_like",
             joinColumns = @JoinColumn(name = "user_id"),
