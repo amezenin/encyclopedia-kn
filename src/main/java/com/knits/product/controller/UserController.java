@@ -23,6 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/users/{id}", produces = {"application/json"})
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<UserDTO> getUserById( @PathVariable(value = "id", required = true) final Long id) {
 
         log.debug("REST request to get User : {}", id);
@@ -34,7 +35,7 @@ public class UserController {
 
 
     @GetMapping(value = "/users/all", produces = {"application/json"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.debug("REST request to get all Users");
         return ResponseEntity
@@ -55,6 +56,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users", produces = {"application/json"}, consumes = { "application/json"})
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<UserDTO> updateUser( @RequestBody UserDTO userDTO) {
         log.debug("REST request to updateUser User ");
         if (userDTO == null) {
@@ -65,7 +67,9 @@ public class UserController {
                 .body(userService.update(userDTO));
     }
 
-    @PatchMapping(value = "/users/{id}",  produces = {"application/json"}, consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/users/{id}",  produces = {"application/json"},
+            consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<UserDTO> partialUpdateUser(
             @PathVariable(value = "id", required = false) final Long id,
             @RequestBody UserDTO userDTO){
@@ -81,6 +85,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         log.debug("REST request to delete User : {}", id);
         userService.delete(id);
@@ -89,6 +94,7 @@ public class UserController {
 
 
     @GetMapping("/users")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
         throw new UnsupportedOperationException("getAllUsers(Pageable pageable) not implemented");
     }

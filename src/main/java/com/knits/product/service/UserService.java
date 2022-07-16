@@ -54,11 +54,12 @@ public class UserService {
     public UserDTO save(UserDTO userDTO) {
         log.debug("Request to save User : {}", userDTO);
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        Role role = roleMapper.toEntity(roleService.findByName("ROLE_USER"));
-        List<Role> roleList = new ArrayList<>();
-        roleList.add(role);
+        Role role = roleService.findByName("USER");
+        //List<Role> roleList = new ArrayList<>();
+        //roleList.add(role);
         User user = userMapper.toEntity(userDTO);
-        user.setRoleList(roleList);
+        user.addRole(role);
+        user.setActive(true);
         user = userRepository.save(user);
         return userMapper.toDto(user);
     }
@@ -147,6 +148,8 @@ public class UserService {
     private User getUserById(UserDTO userDTO) {
         return userRepository.findById(userDTO.getId()).orElseThrow(() -> new UserException("User#" + userDTO.getId() + " not found"));
     }
+
+
 
 
 

@@ -1,4 +1,4 @@
-package com.knits.product.securityV2.jwt;
+package com.knits.product.security.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 

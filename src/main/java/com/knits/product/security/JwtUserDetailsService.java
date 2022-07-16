@@ -1,32 +1,27 @@
-package com.knits.product.securityV2;
+package com.knits.product.security;
 
 import com.knits.product.entity.User;
-import com.knits.product.securityV2.jwt.JwtUser;
-import com.knits.product.securityV2.jwt.JwtUserFactory;
+import com.knits.product.security.jwt.JwtUser;
+import com.knits.product.security.jwt.JwtUserFactory;
 import com.knits.product.service.UserService;
-import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @Autowired
-    public JwtUserDetailsService(UserService userService, UserMapper userMapper) {
+    public JwtUserDetailsService(UserService userService) {
 
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
     @Override

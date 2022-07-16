@@ -1,23 +1,56 @@
 package com.knits.product.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.knits.product.entity.User;
+import com.knits.product.security.jwt.JwtTokenFilter;
+import com.knits.product.security.jwt.JwtTokenProvider;
+import com.knits.product.service.UserService;
+import com.knits.product.service.dto.AuthenticationRequestDTO;
+import com.knits.product.service.mapper.RoleMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 
-@Controller
-@RequestMapping("/auth")
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDTO requestDTO){
+        try {
+            String login = requestDTO.getLogin();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, requestDTO.getPassword()));
+            User user = userService.findByLogin(login);
 
-    @GetMapping(value = "/login")
-    public String getLoginPage(){
-        return "login"; //Circular View Path Error https://www.baeldung.com/spring-circular-view-path-error
+            if (user == null) {
+                throw new UsernameNotFoundException("User with username: " + login + " not found");
+            }
+
+            String token = jwtTokenProvider.createToken(login, user.getRoleList());
+
+            Map<String, String> response = new HashMap<>(); // specify the type was <Object, Object>
+            response.put("login", login);
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid login or password");
+        }
     }
 
-    @GetMapping(value = "/success")
-    public String getSuccessPage(){
-        return "success";
-    }
 }

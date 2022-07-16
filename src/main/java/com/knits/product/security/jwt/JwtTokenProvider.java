@@ -1,13 +1,11 @@
-package com.knits.product.securityV2.jwt;
+package com.knits.product.security.jwt;
 
 import com.knits.product.entity.Role;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,7 +51,7 @@ public class JwtTokenProvider {
         claims.put("roles", getRoleNames(roleList));
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + validityInMilliseconds * 1000);
 
         return Jwts.builder()//
                 .setClaims(claims)//

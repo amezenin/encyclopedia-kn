@@ -9,6 +9,7 @@ import com.knits.product.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping(value = "/roles/{id}", produces = {"application/json"})
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RoleDTO> getRoleById(@PathVariable(value = "id", required = true) final Long id) {
 
         log.debug("REST request to get Role : {}", id);
@@ -33,6 +35,7 @@ public class RoleController {
 
 
     @GetMapping(value = "/roles/all", produces = {"application/json"})
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<RoleDTO>> getAllRoles() {
         log.debug("REST request to get all Users");
         return ResponseEntity
@@ -42,6 +45,7 @@ public class RoleController {
 
 
     @PostMapping(value = "/roles", produces = {"application/json"}, consumes = { "application/json"})
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
         log.debug("REST request to createUser User ");
         if (roleDTO == null) {
@@ -53,7 +57,8 @@ public class RoleController {
     }
 
     @PutMapping(value = "/roles", produces = {"application/json"}, consumes = { "application/json"})
-    public ResponseEntity<RoleDTO> updateUser( @RequestBody RoleDTO roleDTO) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<RoleDTO> updateRole( @RequestBody RoleDTO roleDTO) {
         log.debug("REST request to updateUser User ");
         if (roleDTO == null) {
             throw new UserException("User data are missing");
@@ -63,8 +68,10 @@ public class RoleController {
                 .body(roleService.update(roleDTO));
     }
 
-    @PatchMapping(value = "/roles/{id}",  produces = {"application/json"}, consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<RoleDTO> partialUpdateUser(
+    @PatchMapping(value = "/roles/{id}",  produces = {"application/json"},
+            consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<RoleDTO> partialUpdateRole(
             @PathVariable(value = "id", required = false) final Long id,
             @RequestBody RoleDTO roleDTO){
         log.debug("REST request to updateRole Role ");
@@ -79,6 +86,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/roles/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
         log.debug("REST request to delete Role : {}", id);
         roleService.delete(id);

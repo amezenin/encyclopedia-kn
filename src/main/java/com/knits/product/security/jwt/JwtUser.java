@@ -1,13 +1,10 @@
-package com.knits.product.securityV2.jwt;
+package com.knits.product.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Column;
 import java.util.Collection;
-import java.util.Date;
 
 public class JwtUser implements UserDetails {
 

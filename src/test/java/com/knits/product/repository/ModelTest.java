@@ -48,7 +48,7 @@ public class ModelTest {
         user.setLastName("Mezhenin");
         user.setActive(true);
         user.setEmail("anton.mezhenin@gmail.com");
-        user.setRole(RoleInMemory.ADMIN);
+
 
         User user2 = new User();
         user2.setLogin("user");
@@ -57,7 +57,7 @@ public class ModelTest {
         user2.setLastName("Arcan");
         user2.setActive(true);
         user2.setEmail("user@gmail.com");
-        user2.setRole(RoleInMemory.USER);
+
 
         User bannedUser = new User();
         bannedUser.setLogin("banned");
@@ -66,7 +66,7 @@ public class ModelTest {
         bannedUser.setLastName("Arcan");
         bannedUser.setActive(false);
         bannedUser.setEmail("banned@gmail.com");
-        bannedUser.setRole(RoleInMemory.USER);
+
 
         Role role = new Role();
         role.setName("ADMIN");
@@ -105,6 +105,7 @@ public class ModelTest {
         user.addRole(role);
         user.addRole(role2);
         user2.addRole(role2);
+        bannedUser.addRole(role2);
         user.addArticle(article);
         user.addArticle(article2);
         user.addComment(comment);

@@ -1,7 +1,7 @@
 package com.knits.product.config;
 
-import com.knits.product.securityV2.jwt.JwtConfigurer;
-import com.knits.product.securityV2.jwt.JwtTokenProvider;
+import com.knits.product.security.jwt.JwtConfigurer;
+import com.knits.product.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,15 +15,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfigV2 extends WebSecurityConfigurerAdapter {
-
-    private final JwtTokenProvider jwtTokenProvider;
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ADMIN_ENDPOINT = "/api/admin/**";
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
+    private static final String UNAUTHORIZED_ENDPOINT = "/api/articles/all";
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public SecurityConfigV2(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -41,8 +42,8 @@ public class SecurityConfigV2 extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                //.antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .antMatchers(LOGIN_ENDPOINT, UNAUTHORIZED_ENDPOINT).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

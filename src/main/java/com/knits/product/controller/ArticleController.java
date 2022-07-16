@@ -24,7 +24,6 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping(value = "/articles/all", produces = {"application/json"})
-
     public ResponseEntity<List<ArticleDTO>> getAllArticles() {
         log.debug("REST request to get all Articles");
         return ResponseEntity

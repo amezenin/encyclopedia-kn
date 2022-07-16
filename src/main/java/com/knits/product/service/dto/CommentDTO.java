@@ -1,5 +1,6 @@
 package com.knits.product.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,5 +17,6 @@ public class CommentDTO {
     private Long articleId;
     private Long userId;
     //private Article article;
-    List<UserDTO> likes = new ArrayList<>();
+    private List<UserDTO> likes;
+    private Integer likesCount;
 }

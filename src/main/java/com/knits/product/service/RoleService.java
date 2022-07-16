@@ -85,10 +85,9 @@ public class RoleService {
     }
      */
 
-    public RoleDTO findByName(String name){
+    public Role findByName(String name){
         log.debug("Request Role by name : {}", name);
-        Role role = roleRepository.findByName(name).orElseThrow(()
-                -> new UserException("Role#" + name + " not found", ExceptionCodes.USER_NOT_FOUND));
-        return roleMapper.toDto(role);
+        Role role = roleRepository.findByName(name);
+        return role;
     }
 }

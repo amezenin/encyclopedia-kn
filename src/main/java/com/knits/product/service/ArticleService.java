@@ -54,6 +54,7 @@ public class ArticleService {
         return articleRepository.findAll().stream().map(articleMapper::toDto).collect(Collectors.toList());
     }
 
+
     public ArticleDTO findById(Long id) {
 
         log.debug("Request Article by id : {}", id);

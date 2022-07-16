@@ -1,12 +1,9 @@
-package com.knits.product.securityV2.jwt;
+package com.knits.product.security.jwt;
 
 import com.knits.product.entity.Role;
 import com.knits.product.entity.User;
-import com.knits.product.service.dto.RoleDTO;
-import com.knits.product.service.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -72,10 +72,6 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roleList = new ArrayList<>();
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "role")
-    private RoleInMemory role;
-
     public void addlikedArticle(Article article) {
         likedArticles.add(article);
     }

@@ -22,6 +22,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping(value = "/comments/all", produces = {"application/json"})
+
     public ResponseEntity<List<CommentDTO>> getAllComments() {
         log.debug("REST request to get all Articles");
         return ResponseEntity

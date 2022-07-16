@@ -1,5 +1,6 @@
 package com.knits.product.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public class ArticleDTO {
     private String title;
     private String content;
     private Date createdDate = new Date();
-    //here User object or Long userId? or nothing if use user id in link
-    //private User user;
     private Long userId;
     private List<CommentDTO> commentList = new ArrayList<>();
-    private List<UserDTO> likes = new ArrayList<>();
+    private List<UserDTO> likes;
+    private Integer likesCount;
+
 }
