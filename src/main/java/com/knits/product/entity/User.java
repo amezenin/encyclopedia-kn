@@ -70,7 +70,7 @@ public class User implements Serializable {
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roleList = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
     public void addlikedArticle(Article article) {
         likedArticles.add(article);
@@ -86,9 +86,9 @@ public class User implements Serializable {
 
     public void removelikedComment(Comment comment) { likedComments.remove(comment); }
 
-    public void addRole(Role role) { roleList.add(role); }
+    public void addRole(Role role) { roles.add(role); }
 
-    public void removeRole(Role role) { roleList.remove(role); }
+    public void removeRole(Role role) { roles.remove(role); }
 
     public void addArticle(Article article) {
         articleList.add(article);

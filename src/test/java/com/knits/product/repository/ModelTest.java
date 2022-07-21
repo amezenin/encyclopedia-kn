@@ -69,20 +69,22 @@ public class ModelTest {
 
 
         Role role = new Role();
-        role.setName("ADMIN");
+        role.setName("ROLE_ADMIN");
 
         Role role2 = new Role();
-        role2.setName("USER");
+        role2.setName("ROLE_USER");
 
         //articles
         Article article = new Article();
-        article.setTitle("First article");
-        article.setContent("Body");
+        article.setTitle("Siberian sturgeon");
+        article.setContent("The Siberian sturgeon (Acipenser baerii) is a species of sturgeon in the family Acipenseridae.");
         article.setUser(user);
 
         Article article2 = new Article();
-        article2.setTitle("Second article");
-        article2.setContent("Body");
+        article2.setTitle("Wels catfish");
+        article2.setContent("The wels catfish (Silurus glanis), also called sheatfish or just wels, is a large species " +
+                "of catfish native to wide areas of central, southern, and eastern Europe, in the basins of the Baltic," +
+                " Black and Caspian Seas.");
         article2.setUser(user);
 
         //comments

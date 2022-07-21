@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ADMIN_ENDPOINT = "/api/admin/**";
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
-    private static final String UNAUTHORIZED_ENDPOINT = "/api/articles/all";
+    private static final String UNAUTHORIZED_ENDPOINT = "/api/articles";
+    private static final String GET_ARTICAL_WITHOUT_LOGIN = "/api/articles/{id}";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -42,10 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT, UNAUTHORIZED_ENDPOINT).permitAll()
+                .antMatchers(LOGIN_ENDPOINT,
+                        UNAUTHORIZED_ENDPOINT,
+                        GET_ARTICAL_WITHOUT_LOGIN).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }
+
+
 }

@@ -19,7 +19,7 @@ public class UserDTO {
     private String lastName;
     private String email;
     private Boolean active = true;
-    private List<RoleDTO> roleList = new ArrayList<>();
+    private List<RoleDTO> roles = new ArrayList<>();
     //private List<Comment> commentList = new ArrayList<>();
     //private List<VoteArticle> voteArticleList = new ArrayList<>();
     //private List<VoteComment> voteCommentList = new ArrayList<>();

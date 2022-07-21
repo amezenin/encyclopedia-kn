@@ -6,6 +6,7 @@ import com.knits.product.entity.Article;
 import com.knits.product.entity.User;
 import com.knits.product.repository.ArticleRepository;
 import com.knits.product.service.dto.ArticleDTO;
+import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.ArticleMapper;
 import com.knits.product.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,28 @@ public class ArticleService {
 
         User user = getUser(userId);
 
+        if(user == null){
+            log.debug("User not found : {}", articleDTO);
+        }
+
         //set user
         article.setUser(user);
+
+        Article newArticle = articleRepository.save(article);
+
+        return articleMapper.toDto(newArticle);
+    }
+
+    //for testing second save method
+    public ArticleDTO save(ArticleDTO articleDTO) {
+        log.debug("Request to save Article : {}", articleDTO);
+        Article article = articleMapper.toEntity(articleDTO);
+
+        User user = getUser(articleDTO.getUserId());
+
+        if(user == null){
+            log.debug("User not found : {}", articleDTO);
+        }
 
         Article newArticle = articleRepository.save(article);
 
@@ -105,6 +126,24 @@ public class ArticleService {
         return articleMapper.toDto(updatedArticle);
     }
 
+    public ArticleDTO partialUpdate(ArticleDTO articleDTO) {
+        log.debug("Request to partially update Article : {}", articleDTO);
+        User user = getUser(articleDTO.getUserId());
+        Article article = getArticle(articleDTO.getId());
+
+        if(user == null){
+            log.debug("User not found : {}", articleDTO);
+        }
+        if(article == null){
+            log.debug("Article not found : {}", articleDTO);
+        }
+        articleMapper.partialUpdate(article, articleDTO);
+
+        //TODO: manage User relationship to check updates
+        articleRepository.save(article);
+        return articleMapper.toDto(article);
+    }
+
     public void delete(Long userId, Long articleId) {
         log.debug("Delete Article by id : {}", articleId);
 
@@ -120,12 +159,13 @@ public class ArticleService {
     }
 
     //didnt use before. want to try
-    public List<ArticleDTO> findAllPaged(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+    public List<ArticleDTO> findAllPaged(Integer page, Integer size, String sortBy) {
+        Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
         Page<Article> pagedResult = articleRepository.findAll(paging);
 
         return pagedResult.stream().map(articleMapper::toDto).collect(Collectors.toList());
     }
+
 
     //helper methods
     private Article getArticle(Long id) {

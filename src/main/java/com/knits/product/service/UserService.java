@@ -54,7 +54,7 @@ public class UserService {
     public UserDTO save(UserDTO userDTO) {
         log.debug("Request to save User : {}", userDTO);
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        Role role = roleService.findByName("USER");
+        Role role = roleService.findByName("ROLE_USER");
         //List<Role> roleList = new ArrayList<>();
         //roleList.add(role);
         User user = userMapper.toEntity(userDTO);
