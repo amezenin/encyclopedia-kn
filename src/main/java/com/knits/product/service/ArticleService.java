@@ -1,5 +1,6 @@
 package com.knits.product.service;
 
+import com.knits.product.entity.Comment;
 import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
 import com.knits.product.entity.Article;
@@ -144,7 +145,7 @@ public class ArticleService {
         return articleMapper.toDto(article);
     }
 
-    public void delete(Long userId, Long articleId) {
+    public void deleteByUser(Long userId, Long articleId) {
         log.debug("Delete Article by id : {}", articleId);
 
         User user = getUser(userId);
@@ -153,6 +154,24 @@ public class ArticleService {
 
         if (!article.getUser().getId().equals(user.getId())) {
             throw new UserException("Article was not created by User", ExceptionCodes.USER_NOT_FOUND);
+        }
+
+        articleRepository.deleteById(articleId);
+    }
+
+    public void delete(Long articleId) {
+        log.debug("Delete Article by id : {}", articleId);
+
+        Article article = getArticle(articleId);
+        User user = article.getUser();
+
+        if (!article.getUser().getId().equals(user.getId())) {
+            throw new UserException("Article was not created by User", ExceptionCodes.USER_NOT_FOUND);
+        }
+
+        //for many to many, remove likes before delete
+        for (User user1 : article.getLikes()) {
+            user1.removelikedArticle(article);
         }
 
         articleRepository.deleteById(articleId);

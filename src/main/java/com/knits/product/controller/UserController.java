@@ -23,7 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/users/{id}", produces = {"application/json"})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @CrossOrigin
     public ResponseEntity<UserDTO> getUserById( @PathVariable(value = "id", required = true) final Long id) {
 
         log.debug("REST request to get User : {}", id);
@@ -36,6 +37,7 @@ public class UserController {
 
     @GetMapping(value = "/users/all", produces = {"application/json"})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @CrossOrigin
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         log.debug("REST request to get all Users");
         return ResponseEntity
@@ -69,7 +71,8 @@ public class UserController {
 
     @PatchMapping(value = "/users/{id}",  produces = {"application/json"},
             consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @CrossOrigin
     public ResponseEntity<UserDTO> partialUpdateUser(
             @PathVariable(value = "id", required = false) final Long id,
             @RequestBody UserDTO userDTO){

@@ -22,6 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
     private static final String UNAUTHORIZED_ENDPOINT = "/api/articles";
     private static final String GET_ARTICAL_WITHOUT_LOGIN = "/api/articles/{id}";
+    private static final String GET_COMMENTS = "/api/comments/**";
+    private static final String GET_USERS_WITHOUT_LOGIN = "/api/users/**";
+    private static final String REGISTER_ENDPOINT = "/api/auth/register";
+    private static final String ROLES = "/api/roles/**";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -46,9 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT,
                         UNAUTHORIZED_ENDPOINT,
-                        GET_ARTICAL_WITHOUT_LOGIN).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
+                        GET_ARTICAL_WITHOUT_LOGIN,
+                        GET_USERS_WITHOUT_LOGIN,
+                        REGISTER_ENDPOINT,
+                        ROLES,
+                        GET_COMMENTS
+                        ).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated()
+                .and().exceptionHandling().accessDeniedPage("/error/403")
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

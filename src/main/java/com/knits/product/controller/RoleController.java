@@ -23,7 +23,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping(value = "/roles/{id}", produces = {"application/json"})
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoleDTO> getRoleById(@PathVariable(value = "id", required = true) final Long id) {
 
         log.debug("REST request to get Role : {}", id);
@@ -35,7 +35,8 @@ public class RoleController {
 
 
     @GetMapping(value = "/roles/all", produces = {"application/json"})
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @CrossOrigin
     public ResponseEntity<List<RoleDTO>> getAllRoles() {
         log.debug("REST request to get all Users");
         return ResponseEntity
@@ -45,7 +46,7 @@ public class RoleController {
 
 
     @PostMapping(value = "/roles", produces = {"application/json"}, consumes = { "application/json"})
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
         log.debug("REST request to createUser User ");
         if (roleDTO == null) {
@@ -57,7 +58,7 @@ public class RoleController {
     }
 
     @PutMapping(value = "/roles", produces = {"application/json"}, consumes = { "application/json"})
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoleDTO> updateRole( @RequestBody RoleDTO roleDTO) {
         log.debug("REST request to updateUser User ");
         if (roleDTO == null) {
@@ -70,7 +71,7 @@ public class RoleController {
 
     @PatchMapping(value = "/roles/{id}",  produces = {"application/json"},
             consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoleDTO> partialUpdateRole(
             @PathVariable(value = "id", required = false) final Long id,
             @RequestBody RoleDTO roleDTO){
@@ -86,7 +87,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/roles/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
         log.debug("REST request to delete Role : {}", id);
         roleService.delete(id);

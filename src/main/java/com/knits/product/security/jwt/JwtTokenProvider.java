@@ -45,10 +45,10 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String login, List<Role> roleList) {
+    public String createToken(String login, List<Role> roles) {
 
         Claims claims = Jwts.claims().setSubject(login);
-        claims.put("roles", getRoleNames(roleList));
+        claims.put("roles", getRoleNames(roles));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds * 1000);
@@ -74,7 +74,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;
@@ -94,7 +94,7 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<Role> userRoles) {
+    public List<String> getRoleNames(List<Role> userRoles) {
         List<String> result = new ArrayList<>();
 
         userRoles.forEach(role -> {

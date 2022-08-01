@@ -31,11 +31,13 @@ public class Article {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "article",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
     @ManyToMany(mappedBy = "likedArticles")
     List<User> likes;
+
+    //private Integer likeCount;
 
     public void addLikes(User user) {
         likes.add(user);

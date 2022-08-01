@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping(value = "/comments/all", produces = {"application/json"})
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @CrossOrigin
     public ResponseEntity<List<CommentDTO>> getAllComments() {
         log.debug("REST request to get all Articles");
         return ResponseEntity
@@ -31,6 +33,8 @@ public class CommentController {
     }
 
     @PostMapping(value = "/users/{userId}/articles/{articleId}/comments", produces = {"application/json"}, consumes = { "application/json"})
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @CrossOrigin
     public ResponseEntity<CommentDTO> createComment(@PathVariable(value = "userId") long userId,
                                                     @PathVariable(value = "articleId") long articleId,
                                                     @RequestBody CommentDTO commentDTO) {
@@ -71,7 +75,16 @@ public class CommentController {
     public ResponseEntity<Void> deleteComment(@PathVariable(value = "userId") Long userId,
                                               @PathVariable(value = "commentId") Long commentId) {
         log.debug("REST request to delete Comment : {}", commentId);
-        commentService.delete(userId, commentId);
+        commentService.deleteByUser(userId, commentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/comments/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @CrossOrigin
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.debug("REST request to delete Comment : {}", id);
+        commentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

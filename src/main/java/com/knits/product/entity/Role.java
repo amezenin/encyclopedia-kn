@@ -1,5 +1,6 @@
 package com.knits.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,6 +21,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     List<User> users;
 
@@ -31,10 +33,11 @@ public class Role {
         users.remove(user);
     }
 
-    @Override
+
+    /*@Override
     public String toString() {
         return "Role{" +
                 "id: " + id + ", " +
                 "name: " + name + "}";
-    }
+    }*/
 }

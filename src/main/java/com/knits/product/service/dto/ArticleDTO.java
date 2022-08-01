@@ -19,7 +19,7 @@ public class ArticleDTO {
     private Date createdDate = new Date();
     private Long userId;
     //private User user;
-    private List<CommentDTO> commentList = new ArrayList<>();
+    private List<CommentDTO> commentList;
     private List<UserDTO> likes;
     private Integer likesCount;
 

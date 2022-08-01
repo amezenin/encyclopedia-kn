@@ -85,7 +85,7 @@ public class ModelTest {
         article2.setContent("The wels catfish (Silurus glanis), also called sheatfish or just wels, is a large species " +
                 "of catfish native to wide areas of central, southern, and eastern Europe, in the basins of the Baltic," +
                 " Black and Caspian Seas.");
-        article2.setUser(user);
+        article2.setUser(user2);
 
         //comments
         Comment comment = new Comment();
@@ -109,21 +109,21 @@ public class ModelTest {
         user2.addRole(role2);
         bannedUser.addRole(role2);
         user.addArticle(article);
-        user.addArticle(article2);
+        user2.addArticle(article2);
         user.addComment(comment);
         user.addComment(comment2);
         user.addComment(comment3);
         user.addlikedArticle(article);
         user.addlikedArticle(article2);
-        user.removelikedArticle(article2);
         user.addlikedComment(comment);
         user.addlikedComment(comment2);
+        user2.addlikedArticle(article);
+        user2.addlikedArticle(article2);
+        user2.addlikedComment(comment);
+        user2.addlikedComment(comment2);
         article.addComment(comment);
         article.addComment(comment2);
         article2.addComment(comment3);
-
-        //user.addVoteComment(voteComment);
-        //comment.addVoteComment(voteComment);
 
 
         userRepository.save(user);

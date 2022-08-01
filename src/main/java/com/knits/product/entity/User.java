@@ -66,6 +66,7 @@ public class User implements Serializable {
     private List<Article> likedArticles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
+    //@ToString.Exclude
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -13,7 +13,7 @@ public class UserDTO {
 
     private Long id;
     private String login;
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
     private String firstName;
     private String lastName;

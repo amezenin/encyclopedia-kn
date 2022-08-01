@@ -31,6 +31,7 @@ public class ArticleController {
 
     @GetMapping(value = "/articles", produces = {"application/json"})
     @CrossOrigin
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<ArticleDTO>> getAllArticles() {
         log.debug("REST request to get all Articles");
         return ResponseEntity
@@ -40,6 +41,7 @@ public class ArticleController {
 
     @PostMapping(value = "/articles", produces = {"application/json"}, consumes = { "application/json"})
     @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     //second save method for fast testing
     public ResponseEntity<ArticleDTO> createArticle(@RequestBody ArticleDTO articleDTO) {
         log.debug("REST request to createArticle Article ");
@@ -64,6 +66,8 @@ public class ArticleController {
     }
 
     @GetMapping("/users/{userId}/articles")
+    @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<ArticleDTO> getArticlesByUserId(@PathVariable(value = "userId") Long userId){
         return articleService.getArticlesByUserId(userId);
     }
@@ -124,10 +128,20 @@ public class ArticleController {
 
     @DeleteMapping("/users/{userId}/articles/{articleId}")
     @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> deleteArticle(@PathVariable(value = "userId") Long userId,
                                               @PathVariable(value = "articleId") Long articleId) {
         log.debug("REST request to delete Article : {}", articleId);
-        articleService.delete(userId, articleId);
+        articleService.deleteByUser(userId, articleId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    @CrossOrigin
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<Void> deleteArticle(@PathVariable(value = "articleId") Long articleId) {
+        log.debug("REST request to delete Article : {}", articleId);
+        articleService.delete(articleId);
         return ResponseEntity.noContent().build();
     }
 

@@ -84,7 +84,7 @@ public class CommentService {
         return commentMapper.toDto(updatedComment);
     }
 
-    public void delete(Long userId, Long commentId) {
+    public void deleteByUser(Long userId, Long commentId) {
         log.debug("Delete Comment by id : {}", commentId);
 
         User user = getUserEntity(userId);
@@ -96,6 +96,17 @@ public class CommentService {
         }
 
         commentRepository.deleteById(commentId);
+    }
+
+    public void delete(Long id) {
+        log.debug("Delete Comment by id : {}", id);
+        Comment comment = getComment(id);
+        //for many to many, remove likes before delete
+        for (User user1 : comment.getLikes()) {
+            user1.removelikedComment(comment);
+        }
+
+        commentRepository.deleteById(id);
     }
 
     //helper methods
