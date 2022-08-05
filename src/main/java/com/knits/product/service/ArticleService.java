@@ -129,21 +129,20 @@ public class ArticleService {
 
     public ArticleDTO partialUpdate(ArticleDTO articleDTO) {
         log.debug("Request to partially update Article : {}", articleDTO);
-        User user = getUser(articleDTO.getUserId());
+        //User user = getUser(articleDTO.getUserId());
         Article article = getArticle(articleDTO.getId());
 
-        if(user == null){
-            log.debug("User not found : {}", articleDTO);
-        }
         if(article == null){
             log.debug("Article not found : {}", articleDTO);
         }
+
         articleMapper.partialUpdate(article, articleDTO);
 
         //TODO: manage User relationship to check updates
         articleRepository.save(article);
         return articleMapper.toDto(article);
     }
+
 
     public void deleteByUser(Long userId, Long articleId) {
         log.debug("Delete Article by id : {}", articleId);

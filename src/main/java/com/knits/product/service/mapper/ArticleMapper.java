@@ -15,6 +15,8 @@ public class ArticleMapper {
 
     private final ModelMapper modelMapper;
 
+    private final UserMapper userMapper;
+
     public Article toEntity(ArticleDTO dto) {
         if (dto == null) {
             return null;
@@ -45,6 +47,9 @@ public class ArticleMapper {
         if (dto.getContent() != null) {
             entity.setContent(dto.getContent());
         }
+        if (dto.getLikes() != null) {
+            entity.setLikes(userMapper.toEntity(dto.getLikes()));
+        }
         /*if (dto.getCreatedDate() != null) {
             entity.setCreatedDate(dto.getCreatedDate());
         }*/
@@ -61,6 +66,7 @@ public class ArticleMapper {
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
+        entity.setLikes(userMapper.toEntity(dto.getLikes()));
         //date
         //user
     }

@@ -59,6 +59,9 @@ public class UserMapper {
         if (dto.getRoles() != null) {
             entity.setRoles(roleMapper.toEntity(dto.getRoles()));
         }
+        /*if (dto.getLikedComments() != null) {
+            entity.setLikedComments(dto.getLikedComments());
+        }*/
     }
 
     public void update(User entity, UserDTO dto) {
@@ -72,6 +75,7 @@ public class UserMapper {
         entity.setEmail(dto.getEmail());
         entity.setActive(dto.getActive());
         entity.setRoles(roleMapper.toEntity(dto.getRoles()));
+        //entity.setLikedComments(dto.getLikedComments());
     }
 
     public List<UserDTO> toDto(List<User> entityList) {

@@ -6,7 +6,9 @@ import com.knits.product.entity.Article;
 import com.knits.product.entity.Comment;
 import com.knits.product.entity.User;
 import com.knits.product.repository.CommentRepository;
+import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.CommentDTO;
+import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.ArticleMapper;
 import com.knits.product.service.mapper.CommentMapper;
 import com.knits.product.service.mapper.UserMapper;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +40,18 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
+    private final UserRepository userRepository;
+
     public List<CommentDTO> findAll() {
         return commentRepository.findAll().stream().map(commentMapper::toDto).collect(Collectors.toList());
+    }
+
+    public CommentDTO findById(Long id) {
+
+        log.debug("Request User by id : {}", id);
+        Comment comment = commentRepository.findById(id).orElseThrow(()
+                -> new UserException("User#" + id + " not found", ExceptionCodes.USER_NOT_FOUND));
+        return commentMapper.toDto(comment);
     }
 
     public CommentDTO save(long userId, long articleId, CommentDTO commentDTO) {
@@ -66,7 +79,7 @@ public class CommentService {
         return commentMapper.toDto(comments);
     }
 
-    public CommentDTO update(Long userId, Long commentId, CommentDTO commentDTO) {
+    public CommentDTO updateByUser(Long userId, Long commentId, CommentDTO commentDTO) {
         log.debug("Request to update Comment : {}", commentDTO);
 
         User user = getUserEntity(userId);
@@ -78,6 +91,20 @@ public class CommentService {
         }
 
         commentMapper.partialUpdate(comment, commentDTO);
+
+        //TODO: manage User relationship to check updates
+        Comment updatedComment = commentRepository.save(comment);
+        return commentMapper.toDto(updatedComment);
+    }
+
+    public CommentDTO partialUpdate(CommentDTO commentDTO) {
+        log.debug("Request to partially update Comment : {}", commentDTO);
+        Comment comment = getComment(commentDTO.getId());
+
+        commentMapper.partialUpdate(comment, commentDTO); // problem here
+
+       // user.addlikedComment(comment);
+       // userRepository.save(user);
 
         //TODO: manage User relationship to check updates
         Comment updatedComment = commentRepository.save(comment);

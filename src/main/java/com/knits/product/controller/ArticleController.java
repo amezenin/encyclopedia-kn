@@ -53,7 +53,7 @@ public class ArticleController {
                 .body(articleService.save(articleDTO));
     }
 
-    @PostMapping(value = "/users/{userId}/articles", produces = {"application/json"}, consumes = { "application/json"})
+    @PostMapping(value = "/articles/users/{userId}", produces = {"application/json"}, consumes = { "application/json"})
     public ResponseEntity<ArticleDTO> createArticle(@PathVariable(value = "userId") long userId,
                                                  @RequestBody ArticleDTO articleDTO) {
         log.debug("REST request to createUser Article ");
@@ -65,9 +65,9 @@ public class ArticleController {
                 .body(articleService.save(userId, articleDTO));
     }
 
-    @GetMapping("/users/{userId}/articles")
+    @GetMapping("/articles/users/{userId}")
     @CrossOrigin
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<ArticleDTO> getArticlesByUserId(@PathVariable(value = "userId") Long userId){
         return articleService.getArticlesByUserId(userId);
     }
@@ -85,7 +85,7 @@ public class ArticleController {
 
 
 
-    @GetMapping(value = "users/{userId}/articles/{id}", produces = {"application/json"})
+    @GetMapping(value = "/articles/{id}/users/{userId}", produces = {"application/json"})
     public ResponseEntity<ArticleDTO> getArticleByIdAndUserId(@PathVariable(value = "userId", required = true) final Long userId,
                                                      @PathVariable(value = "id") Long articleId) {
 
@@ -96,7 +96,7 @@ public class ArticleController {
                 .body(articleDTO);
     }
 
-    @PutMapping(value = "/users/{userId}/articles/{articleId}", produces = {"application/json"}, consumes = { "application/json"})
+    @PutMapping(value = "/articles/{articleId}/users/{userId}", produces = {"application/json"}, consumes = { "application/json"})
     public ResponseEntity<ArticleDTO> updateArticle(@PathVariable(value = "userId") Long userId,
                                                     @PathVariable(value = "articleId") Long articleId,
                                                     @RequestBody ArticleDTO articleDTO) {
@@ -121,6 +121,7 @@ public class ArticleController {
             throw new UserException("Article data are missing");
         }
         articleDTO.setId(id);
+
         return ResponseEntity
                 .ok()
                 .body(articleService.partialUpdate(articleDTO));

@@ -34,8 +34,13 @@ public class Article {
     @OneToMany(mappedBy = "article",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "likedArticles")
-    List<User> likes;
+    @ManyToMany
+    //@ToString.Exclude
+    @JoinTable(
+            name = "article_like",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User> likes = new ArrayList<>();
 
     //private Integer likeCount;
 

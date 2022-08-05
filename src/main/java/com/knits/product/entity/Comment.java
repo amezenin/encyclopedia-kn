@@ -1,8 +1,11 @@
 package com.knits.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,8 +33,13 @@ public class Comment {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    @ManyToMany(mappedBy = "likedComments")
-    List<User> likes;
+    @ManyToMany
+    //@ToString.Exclude
+    @JoinTable(
+            name = "comment_like",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User> likes = new ArrayList<>();
 
     public void addLikes(User user) {
         likes.add(user);

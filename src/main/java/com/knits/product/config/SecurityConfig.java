@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ADMIN_ENDPOINT = "/api/admin/**";
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
-    private static final String UNAUTHORIZED_ENDPOINT = "/api/articles";
+    private static final String UNAUTHORIZED_ENDPOINT = "/api/articles/**";
     private static final String GET_ARTICAL_WITHOUT_LOGIN = "/api/articles/{id}";
     private static final String GET_COMMENTS = "/api/comments/**";
     private static final String GET_USERS_WITHOUT_LOGIN = "/api/users/**";

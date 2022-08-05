@@ -49,20 +49,12 @@ public class User implements Serializable {
     @ToString.Exclude
     private List<Comment> commentList = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "likes")
     @ToString.Exclude
-    @JoinTable(
-            name = "comment_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> likedComments = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "likes")
     @ToString.Exclude
-    @JoinTable(
-            name = "article_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
     private List<Article> likedArticles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

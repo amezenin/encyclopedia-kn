@@ -1,9 +1,11 @@
 package com.knits.product.service;
 
+import com.knits.product.entity.Comment;
 import com.knits.product.entity.Role;
 import com.knits.product.exceptions.ExceptionCodes;
 import com.knits.product.exceptions.UserException;
 import com.knits.product.entity.User;
+import com.knits.product.repository.CommentRepository;
 import com.knits.product.repository.UserRepository;
 import com.knits.product.service.dto.UserDTO;
 import com.knits.product.service.mapper.RoleMapper;
@@ -43,6 +45,7 @@ public class UserService {
         this.roleMapper = roleMapper;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     /**

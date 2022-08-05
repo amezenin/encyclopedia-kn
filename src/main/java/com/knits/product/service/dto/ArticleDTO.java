@@ -22,5 +22,6 @@ public class ArticleDTO {
     private List<CommentDTO> commentList;
     private List<UserDTO> likes;
     private Integer likesCount;
+    private Long likeUserId;
 
 }

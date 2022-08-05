@@ -1,6 +1,7 @@
 package com.knits.product.service.mapper;
 
 import com.knits.product.entity.Comment;
+import com.knits.product.entity.User;
 import com.knits.product.service.dto.CommentDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class CommentMapper {
+
+    private final UserMapper userMapper;
 
     private final ModelMapper modelMapper;
 
@@ -42,6 +45,11 @@ public class CommentMapper {
         if (dto.getContent() != null) {
             entity.setContent(dto.getContent());
         }
+        if (dto.getLikes() != null) {
+            entity.setLikes(userMapper.toEntity(dto.getLikes()));
+        }
+
+
     }
 
     public void update(Comment entity, CommentDTO dto) {
@@ -50,6 +58,7 @@ public class CommentMapper {
         }
         entity.setId(dto.getId());
         entity.setContent(dto.getContent());
+        entity.setLikes(userMapper.toEntity(dto.getLikes()));
         //date
         //user
     }
